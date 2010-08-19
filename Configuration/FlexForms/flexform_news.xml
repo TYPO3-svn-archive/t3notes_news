@@ -1,0 +1,26 @@
+<T3DataStructure>
+  <meta>
+    <langDisable>1</langDisable>
+  </meta>
+  <sheets>
+    <sDEF>
+      <ROOT>
+        <TCEforms>
+          <sheetTitle>Options</sheetTitle>
+        </TCEforms>
+        <type>array</type>
+        <el>
+          <settings.newsRequestURL>
+            <TCEforms>
+              <label>News URL</label>
+              <config>
+                <type>input</type>
+				<size>30</size>
+              </config>
+            </TCEforms>
+          </settings.newsRequestURL>
+        </el>
+      </ROOT>
+    </sDEF>
+  </sheets>
+</T3DataStructure>

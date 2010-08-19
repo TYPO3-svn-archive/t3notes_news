@@ -1,0 +1,6 @@
+
+  # cat=basic//10; type=text; label= News detail base url: URL for the news detail content links
+newsDetailBaseUrl = 
+
+  # cat=basic//10; type=text; label= News detail replace list: List of HTML attributes to replace
+newsDetailReplaceList = src=",url=",href="

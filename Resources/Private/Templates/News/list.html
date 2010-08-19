@@ -1,0 +1,27 @@
+{namespace newsPager=Tx_ExtbasePager_ViewHelpers}
+<div class="tx_t3notes_listView">
+<f:for each="{dataArray}" as="currentEntry" key="counter">
+	<div class="newsListItem">
+		<f:if condition="{currentEntry.photoAvailable}">
+			<img border="0" title="" alt="" src="fe_index.php?eID=tx_cabagphpproxy&tx_cabagphpproxy_keyword=newsDetail&addStringFromGETorPOST={currentEntry.PhotoPreviewURL}">
+		</f:if>
+		<span class="newsListDate">{currentEntry.Publikation}</span><br />
+		<span class="newsListTitle">
+			<f:link.external uri="fe_index.php?eID=tx_cabagphpproxy&tx_cabagphpproxy_keyword=newsDetail&addStringFromGETorPOST={currentEntry.DocURL}" target="_blank">
+				{currentEntry.Titel}
+			</f:link.external>
+		</span>
+		<f:link.external uri="fe_index.php?eID=tx_cabagphpproxy&tx_cabagphpproxy_keyword=newsDetail&addStringFromGETorPOST={currentEntry.DocURL}" target="_blank">
+			<p class="bodytext">{currentEntry.Teaser}</p>
+		</f:link.external>
+		<span class="newsListMore">
+			<f:link.external uri="fe_index.php?eID=tx_cabagphpproxy&tx_cabagphpproxy_keyword=newsDetail&addStringFromGETorPOST={currentEntry.DocURL}" target="_blank">
+				<f:translate key="list_more" />
+			</f:link.external>
+		</span>
+	</div>
+</f:for>
+<f:if condition="{lastPage} > 1">
+	<newsPager:pager lastPage="{lastPage}" typoscript="{settings.pager}" localLang="EXT:t3notes_news/Resources/Private/Language/locallang.xml" />
+</f:if>
+</div>

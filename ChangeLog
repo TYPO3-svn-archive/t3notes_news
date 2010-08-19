@@ -1,0 +1,16 @@
+2010-06-10 Sonja Scholz <ss@cabag.ch>
+	* Version 0.0.4
+	* added pager functionality with extbase_pager
+
+2010-06-08 Sonja Scholz <ss@cabag.ch>
+	* Version 0.0.3
+	* add new function processCurlAdditionalPostParams to cabag_phpproxy hook
+
+2010-05-04 Sonja Scholz <ss@cabag.ch>
+	* Version 0.0.2
+	* added ext_conf_template.txt for several configuration
+	* added hooks/class.tx_t3notesnews_cabagphpproxy.php to process the data given back by the php proxy
+
+2010-04-08 Sonja Scholz <ss@cabag.ch>
+	* Version 0.0.1
+	* first version with list and single view of news which are received by XML curl request
