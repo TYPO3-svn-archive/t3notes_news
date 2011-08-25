@@ -8,7 +8,7 @@ Tx_Extbase_Utility_Extension::configurePlugin(
 		'News' => 'list, single',
 	),
 	array(
-		'News' => '',
+		'News' => 'list',
 	)
 );
 

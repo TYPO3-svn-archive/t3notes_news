@@ -50,38 +50,44 @@ class Tx_T3notesNews_Controller_NewsController extends Tx_Extbase_MVC_Controller
 		
 		$curlResult = $tx_t3notes_auth->request($url,$curlParamter,2);
 		
-		$dataArray = t3lib_div::xml2tree($curlResult);
-		
-		if(is_array($dataArray)) {
-			$dataArray = $dataArray['news'][0]['ch']['newsentry'];
+		if($curlResult === false) {
+			// the request failed, probably because the lotus notes server is unreachable, show an error message
+			$this->view->assign('showErrorMessage', 1);
+			$extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['t3notes_news']);
+			$this->view->assign('errorMessage', $extConf['serverUnreachableErrorMessage']);
+		} else {
+			$dataArray = t3lib_div::xml2tree($curlResult);
 			
-			$finalArray = array();
-			foreach($dataArray as $key => $currentArray) {
-				if(!empty($currentArray['ch']['PhotoPreviewURL'][0]['values'][0]) && strlen($currentArray['ch']['PhotoPreviewURL'][0]['values'][0]) > 3) {
-					$currentArray['photoAvailable'] = true;
-					$currentArray['PhotoPreviewURL'] = $currentArray['ch']['PhotoPreviewURL'][0]['values'][0];
+			if(is_array($dataArray)) {
+				$dataArray = $dataArray['news'][0]['ch']['newsentry'];
+				
+				$finalArray = array();
+				foreach($dataArray as $key => $currentArray) {
+					if(!empty($currentArray['ch']['PhotoPreviewURL'][0]['values'][0]) && strlen($currentArray['ch']['PhotoPreviewURL'][0]['values'][0]) > 3) {
+						$currentArray['photoAvailable'] = true;
+						$currentArray['PhotoPreviewURL'] = $currentArray['ch']['PhotoPreviewURL'][0]['values'][0];
+					}
+					
+					$currentArray['Publikation'] = $currentArray['ch']['Publikation'][0]['values'][0];
+					$currentArray['Titel'] = $currentArray['ch']['Titel'][0]['values'][0];
+					$currentArray['Teaser'] = $currentArray['ch']['Teaser'][0]['values'][0];
+					$currentArray['DocURL'] = trim($currentArray['ch']['DocURL'][0]['values'][0]);
+					$currentArray['DocURL'] = urlencode($currentArray['DocURL']);
+					
+					$finalArray[$key] = $currentArray;
 				}
 				
-				$currentArray['Publikation'] = $currentArray['ch']['Publikation'][0]['values'][0];
-				$currentArray['Titel'] = $currentArray['ch']['Titel'][0]['values'][0];
-				$currentArray['Teaser'] = $currentArray['ch']['Teaser'][0]['values'][0];
-				$currentArray['DocURL'] = trim($currentArray['ch']['DocURL'][0]['values'][0]);
-				$currentArray['DocURL'] = urlencode($currentArray['DocURL']);
+				$lastPage = Tx_ExtbasePager_Utility_Pager::prepareArray($finalArray, $page, 10);
 				
-				$finalArray[$key] = $currentArray;
+				$this->view->assign('dataArray', $finalArray);
+				$this->view->assign('lastPage', $lastPage);
 			}
-			
-			$lastPage = Tx_ExtbasePager_Utility_Pager::prepareArray($finalArray, $page, 10);
-			
-			$this->view->assign('dataArray', $finalArray);
-			$this->view->assign('lastPage', $lastPage);
-			
-			
-			try {
-				$this->view->render();
-			}catch(Exception $e) {
-				print_r($e->getMessage());
-			}
+		}
+		
+		try {
+			$this->view->render();
+		}catch(Exception $e) {
+			print_r($e->getMessage());
 		}
 	}
 }
